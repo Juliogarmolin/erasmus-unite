@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="col-lg-12 mt-3">
+	<h1>
+		{{page_title}}
+	</h1>
+	<p>Regístrate en el foro</p>
+	<hr />
+	<div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+		El registro se ha completado correctamente, <a [routerLink]="['/login']">identificate aquí</a>
+	</div>
+	<div class="alert alert-danger col-md-5 mt-3" *ngIf="status == 'error'">
+		El registro no se ha completado
+	</div>
+	<div class="shadow p-3 bg-white rounded col-md-5">
+		<form class="ml-0 pl-0" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+			<div class="form-group">
+				<label for="name">Nombre</label>
+				<font style="vertical-align: inherit; color: red;">
+					<font style="vertical-align: inherit;"> *</font>
+				</font>
+				<input type="text" name="name" #name="ngModel" [(ngModel)]="user.name"
+					(ngModelChange)="user.name = user.name.trim()" required pattern="[a-zA-ZÀ-ÿ ]+"
+					class="form-control" />
+				<small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+					El nombre no es válido
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="surname">Apellidos</label>
+				<font style="vertical-align: inherit; color: red;">
+					<font style="vertical-align: inherit;"> *</font>
+				</font>
+				<input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname"
+					(ngModelChange)="user.surname = user.surname.trim()" required pattern="[a-zA-ZÀ-ÿ ]+"
+					class="form-control" />
+				<small *ngIf="!surname.valid && surname.touched" class="invalid-feedback d-block">
+					Los apellidos no son válidos
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="email">Correo electrónico </label>
+				<font style="vertical-align: inherit; color: red;">
+					<font style="vertical-align: inherit;"> *</font>
+				</font>
+				<input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" required
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" />
+				<small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">
+					El email no es válido
+				</small>
+				<small *ngIf="email.value && email.value.trim().includes(' ')" class="invalid-feedback d-block">
+					El correo electrónico no puede contener espacios en blanco
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="password">Contraseña (max 16 caracteres)</label>
+				<font style="vertical-align: inherit; color: red;">
+					<font style="vertical-align: inherit;"> *</font>
+				</font>
+				<div class="input-group">
+					<input type="password" [type]="passwordVisible ? 'text' : 'password'" name="password" #password="ngModel" [(ngModel)]="user.password" required
+						minlength="6" maxlength="16" pattern="^(?!.*\s).*$" class="form-control" />
+					<div class="input-group-append">
+						<span class="input-group-text" (click)="togglePasswordVisibility()">
+							<i id="password-toggle-icon"
+								[class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+						</span>
+					</div>
+				</div>
+				<small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block">
+					La contraseña no es válida
+				</small>
+				<small *ngIf="password.errors?.minlength" class="invalid-feedback d-block">
+					La contraseña debe tener al menos 6 caracteres
+				</small>
+				<small *ngIf="password.errors?.pattern" class="invalid-feedback d-block">
+					La contraseña no puede contener espacios en blanco
+				</small>
+			</div>
+			<input type="submit" value="{{page_title}}" class="btn btn-success" [disabled]="registerForm.invalid" />
+		</form>
+	</div>
+	<div class="col-md-5 mt-3">
+		<p>¿Ya tienes una cuenta? <a href="/login"> Iniciar sesión</a></p>	
+	</div>
+</div>

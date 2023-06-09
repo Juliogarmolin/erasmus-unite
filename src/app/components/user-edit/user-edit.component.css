@@ -1,0 +1,10 @@
+.col-lg-12.mt-3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn.btn-success {
+    width: 100%;
+}
